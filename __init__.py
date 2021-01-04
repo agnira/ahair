@@ -26,9 +26,9 @@ import bpy
 
 print("starting up")
 
-from . ui_operator import Ah_Generate_from_mesh_OT_Operator, Test_OT_Operator, Curve_Select_First_OT_Operator, Curve_Select_Last_OT_Operator, Curve_Switch_Direction_OT_Operator, WM_OT_myOp
+from . ui_operator import Ah_Generate_from_mesh_OT_Operator, Test_OT_Operator, Curve_Select_First_OT_Operator, Curve_Select_Last_OT_Operator, Curve_Switch_Direction_OT_Operator, WM_OT_myOp, WM_OT_generate_hair_from_mesh
 from . ui import NODE_PT_Panel, AH_Curve_PT_Panel, AH_Texture_PT_Panel
 
-classes = (Ah_Generate_from_mesh_OT_Operator, Test_OT_Operator, Curve_Select_First_OT_Operator, Curve_Select_Last_OT_Operator, Curve_Switch_Direction_OT_Operator, NODE_PT_Panel, AH_Curve_PT_Panel, AH_Texture_PT_Panel, WM_OT_myOp)
+classes = (Ah_Generate_from_mesh_OT_Operator, Test_OT_Operator, Curve_Select_First_OT_Operator, Curve_Select_Last_OT_Operator, Curve_Switch_Direction_OT_Operator, NODE_PT_Panel, AH_Curve_PT_Panel, AH_Texture_PT_Panel, WM_OT_myOp, WM_OT_generate_hair_from_mesh)
 
 register, unregister = bpy.utils.register_classes_factory(classes)

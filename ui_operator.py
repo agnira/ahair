@@ -24,7 +24,14 @@ class Ah_Generate_from_mesh_OT_Operator(bpy.types.Operator):
         generatedObject = "ah_"+baseObject
         bpy.context.active_object.name = generatedObject
 
-        append_lib("ah_bevel", "Object")
+        # select bevel curve
+        bevel_name = "ah_bevel_"+baseObject
+        if self.useExistingBevel:
+            bevel_name = self.bevel
+        else:
+            append_lib("ah_bevel", "Object")
+            bpy.data.objects['ah_bevel'].name = bevel_name
+
         bpy.ops.object.select_all(action="DESELECT")
         bpy.context.view_layer.objects.active = bpy.data.objects[generatedObject]
         bpy.data.objects[generatedObject].select_set(True)
@@ -56,7 +63,7 @@ class Ah_Generate_from_mesh_OT_Operator(bpy.types.Operator):
             bpy.context.object.data.splines[index].use_endpoint_u=True
             index+=1
         ctx.object.data.resolution_u = 2
-        bpy.context.object.data.bevel_object = bpy.data.objects["ah_bevel"]
+        bpy.context.object.data.bevel_object = bpy.data.objects[bevel_name]
         bpy.ops.object.mode_set(mode="OBJECT")
         bpy.context.object.data.bevel_mode = 'OBJECT'
 
@@ -127,7 +134,6 @@ class Curve_Switch_Direction_OT_Operator(bpy.types.Operator):
     def execute(self, context):
         bpy.ops.curve.switch_direction()
         return{"FINISHED"}
-# def create_collection(materialName):
 
 def append_lib(objName, directory):
     sep = os.sep
@@ -191,7 +197,7 @@ def get_addon_path():
             return filepath + sep + folders[0] + sep
     return 'ERROR: No path found for ' + "agni_hair" + '!'
 
-# template popup menu
+# popup menu
 
 def get_material_list(scene, context):
     items = []
@@ -206,9 +212,9 @@ def get_bevel_list(scene, context):
             items.append((bev.name, bev.name, bev.name))
     return items
 
-class WM_OT_myOp(bpy.types.Operator):
-    bl_label = "test"
-    bl_idname = "wm.test"
+class WM_OT_generate_hair_from_mesh(bpy.types.Operator):
+    bl_label = "Generate hair from mesh"
+    bl_idname = "wm.generate_hair_from_mesh"
     
     useExistingMat = BoolProperty(name='Use exist material')
     mat = EnumProperty(name="ArsaHair material", items = get_material_list)
@@ -234,3 +240,33 @@ class WM_OT_myOp(bpy.types.Operator):
     
     def invoke(self, context, event):
         return context.window_manager.invoke_props_dialog(self)
+
+# template popup menu
+class WM_OT_myOp(bpy.types.Operator):
+    bl_label = "test"
+    bl_idname = "wm.test"
+    
+    # useExistingMat = BoolProperty(name='Use exist material')
+    # mat = EnumProperty(name="ArsaHair material", items = get_material_list)
+    # useExistingBevel = BoolProperty(name="Use exist bevel curve")
+    # bevel = EnumProperty(name="ArsaHair Bevel", items = get_bevel_list)
+    # # text = bpy.props.StringProperty(name="hello", default="")
+
+    # def draw(self, context):
+    #     layout = self.layout
+
+    #     layout.prop(self, "useExistingMat")
+    #     if self.useExistingMat:
+    #         layout.prop(self, "mat")
+    #     layout.prop(self, "useExistingBevel")
+    #     if self.useExistingBevel:
+    #         layout.prop(self, "bevel")
+        
+    #     # layout.prop(self, "text")
+
+    # def execute(self, context):
+    #     bpy.ops.view3d.generate_hair_from_mesh(useExistingMat= self.useExistingMat, useExistingBevel=self.useExistingBevel, material=self.mat, bevel=self.bevel)
+    #     return {'FINISHED'}
+    
+    # def invoke(self, context, event):
+    #     return context.window_manager.invoke_props_dialog(self)

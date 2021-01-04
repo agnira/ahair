@@ -10,7 +10,7 @@ class NODE_PT_Panel(bpy.types.Panel):
         layout = self.layout
 
         row = layout.row(align=True)
-        row.operator('view3d.generate_hair_from_mesh', text='Generate hair from mesh')
+        row.operator('wm.generate_hair_from_mesh', text='Generate hair from mesh')
         
         layout.separator()
         row = layout.row(align=True)
