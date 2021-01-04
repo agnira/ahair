@@ -10,11 +10,11 @@ class NODE_PT_Panel(bpy.types.Panel):
         layout = self.layout
 
         row = layout.row(align=True)
-        row.operator('view3d.generate_hair_from_mesh', text='Generate hair from mesh')
+        row.operator('wm.generate_hair_from_mesh', text='Generate hair from mesh')
         
         layout.separator()
         row = layout.row(align=True)
-        row.operator('view3d.test', text='test')
+        row.operator('wm.test', text='test')
 
         # scene = context.scene
 
@@ -73,14 +73,16 @@ class AH_Texture_PT_Panel(bpy.types.Panel):
         activeMat = bpy.context.object.active_material
         layout = self.layout
         cr = layout.template_color_ramp
-        if activeMat.name.startswith('ah_'):
-            layout.row(align=False).label(text="Random Color :")
-            random_color = activeMat.node_tree.nodes[activeMat.name+'_node'].node_tree.nodes['random_color']
-            cr(random_color, "color_ramp", expand=True)
-            layout.row(align=False).label(text="Shadow Color :")
-            shadow_color = activeMat.node_tree.nodes[activeMat.name+'_node'].node_tree.nodes['shadow_color']
-            cr(shadow_color, "color_ramp", expand=True)
-        else:layout.row(align=False).label(text="Not Arsa Hair Material")
+        if activeMat:
+            if activeMat.name.startswith('ah_'):
+                layout.row(align=False).label(text="Random Color :")
+                random_color = activeMat.node_tree.nodes[activeMat.name+'_node'].node_tree.nodes['random_color']
+                cr(random_color, "color_ramp", expand=True)
+                layout.row(align=False).label(text="Shadow Color :")
+                shadow_color = activeMat.node_tree.nodes[activeMat.name+'_node'].node_tree.nodes['shadow_color']
+                cr(shadow_color, "color_ramp", expand=True)
+            else:layout.row(align=False).label(text="Not ArsaHair material")
+        else:layout.row(align=False).label(text="No active material")        
 
 class AH_Curve_PT_Panel(bpy.types.Panel):
     bl_label = "Curve Tool"
