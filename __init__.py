@@ -12,23 +12,33 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 bl_info = {
-    "name" : "arsa_hair",
+    "name" : "ahair",
     "author" : "Agni Rakai Sahakarya",
-    "description" : "creating hair addon",
+    "description" : "",
     "blender" : (2, 80, 0),
     "version" : (0, 0, 1),
-    "location" : "View3D",
+    "location" : "",
     "warning" : "",
     "category" : "Generic"
 }
 
-import bpy
+from . import auto_load
 
-print("starting up")
+from . import auto_load
 
-from . ui_operator import Ah_Generate_from_mesh_OT_Operator, Test_OT_Operator, Curve_Select_First_OT_Operator, Curve_Select_Last_OT_Operator, Curve_Switch_Direction_OT_Operator
-from . ui import NODE_PT_Panel, AH_Curve_PT_Panel, AH_Texture_PT_Panel
+if "bpy" in locals():
+    import importlib
+    importlib.reload(auto_load)
+    auto_load.init()
+    auto_load.reload()
 
-classes = (Ah_Generate_from_mesh_OT_Operator, Test_OT_Operator, Curve_Select_First_OT_Operator, Curve_Select_Last_OT_Operator, Curve_Switch_Direction_OT_Operator, NODE_PT_Panel, AH_Curve_PT_Panel, AH_Texture_PT_Panel)
+auto_load.init()
 
-register, unregister = bpy.utils.register_classes_factory(classes)
+def register():
+    auto_load.register()
+
+def unregister():
+    auto_load.unregister()
+
+if __name__ == "__main__":
+    register()
